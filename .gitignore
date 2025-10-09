@@ -1,3 +1,4 @@
+.metals/**
 .env
 HELP.md
 target/

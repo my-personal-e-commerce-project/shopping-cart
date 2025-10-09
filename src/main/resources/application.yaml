@@ -15,12 +15,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          public-key: ${KEYCLOAK_PUBLIC_KEY}
-client:
+          issuer-uri: ${KEYCLOAK_HOST}/realms/microservicios-ecommerce
   product-service:
     url: http://${PRODUCT_HOST}/api/v1/
 server:
   port: 8003
-
-
-

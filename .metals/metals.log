@@ -112,3 +112,31 @@
 2025.10.07 21:53:58 INFO  time: initialize in 2.44s[0m
 2025.10.07 21:53:58 WARN  Build server is not auto-connectable.[0m
 2025.10.07 21:53:58 INFO  skipping build import with status 'Requested'[0m
+2025.10.08 11:15:23 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/mauro/project/microservice_laravel/shopping-cart/.metals/lsp.trace.json or /home/mauro/.cache/metals/lsp.trace.json[0m
+2025.10.08 11:15:23 INFO  logging to file /home/mauro/project/microservice_laravel/shopping-cart/.metals/metals.log[0m
+2025.10.08 11:15:23 INFO  Started: Metals version 0.11.2 in workspace '/home/mauro/project/microservice_laravel/shopping-cart' for client coc.nvim 0.0.82.[0m
+2025.10.08 11:15:23 INFO  Parse release: 21.0.8[0m
+2025.10.08 11:15:26 INFO  time: initialize in 2.39s[0m
+2025.10.08 11:15:26 WARN  Build server is not auto-connectable.[0m
+2025.10.08 11:15:26 INFO  skipping build import with status 'Requested'[0m
+2025.10.08 13:37:55 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/mauro/project/microservice_laravel/shopping-cart/.metals/lsp.trace.json or /home/mauro/.cache/metals/lsp.trace.json[0m
+2025.10.08 13:37:56 INFO  logging to file /home/mauro/project/microservice_laravel/shopping-cart/.metals/metals.log[0m
+2025.10.08 13:37:56 INFO  Started: Metals version 0.11.2 in workspace '/home/mauro/project/microservice_laravel/shopping-cart' for client coc.nvim 0.0.82.[0m
+2025.10.08 13:37:56 INFO  Parse release: 21.0.8[0m
+2025.10.08 13:37:59 INFO  time: initialize in 2.6s[0m
+2025.10.08 13:38:01 WARN  Build server is not auto-connectable.[0m
+2025.10.08 13:38:02 INFO  skipping build import with status 'Requested'[0m
+2025.10.09 07:35:53 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/mauro/project/microservice_laravel/shopping-cart/.metals/lsp.trace.json or /home/mauro/.cache/metals/lsp.trace.json[0m
+2025.10.09 07:35:54 INFO  logging to file /home/mauro/project/microservice_laravel/shopping-cart/.metals/metals.log[0m
+2025.10.09 07:35:54 INFO  Started: Metals version 0.11.2 in workspace '/home/mauro/project/microservice_laravel/shopping-cart' for client coc.nvim 0.0.82.[0m
+2025.10.09 07:35:54 INFO  Parse release: 21.0.8[0m
+2025.10.09 07:35:56 INFO  time: initialize in 2.34s[0m
+2025.10.09 07:35:57 WARN  Build server is not auto-connectable.[0m
+2025.10.09 07:35:57 INFO  skipping build import with status 'Requested'[0m
+2025.10.09 20:08:29 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/mauro/project/microservice_laravel/shopping-cart/.metals/lsp.trace.json or /home/mauro/.cache/metals/lsp.trace.json[0m
+2025.10.09 20:08:29 INFO  logging to file /home/mauro/project/microservice_laravel/shopping-cart/.metals/metals.log[0m
+2025.10.09 20:08:29 INFO  Started: Metals version 0.11.2 in workspace '/home/mauro/project/microservice_laravel/shopping-cart' for client coc.nvim 0.0.82.[0m
+2025.10.09 20:08:29 INFO  Parse release: 21.0.8[0m
+2025.10.09 20:08:32 INFO  time: initialize in 2.27s[0m
+2025.10.09 20:08:32 WARN  Build server is not auto-connectable.[0m
+2025.10.09 20:08:32 INFO  skipping build import with status 'Requested'[0m
