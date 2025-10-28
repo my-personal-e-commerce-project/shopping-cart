@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import microservice.ecommerce.shopping_cart.cart.application.port.in.GetCartByUserIdUseCase;
 import microservice.ecommerce.shopping_cart.cart.application.port.in.UpdateOrCreateCartUseCase;
 import microservice.ecommerce.shopping_cart.cart.domain.agregate.Cart;
-import microservice.ecommerce.shopping_cart.cart.domain.exception.InvalidQuantity;
 import microservice.ecommerce.shopping_cart.cart.infrastructure.dtos.CartDto;
 import microservice.ecommerce.shopping_cart.cart.infrastructure.dtos.CartItemDto;
 import microservice.ecommerce.shopping_cart.cart.infrastructure.dtos.PayloadResponse;
@@ -54,7 +53,8 @@ public class CartController {
             return ResponseEntity.ok(
                 PayloadResponse.builder().data(toMap(cart)).build()
             );
-        } catch(InvalidQuantity e) {
+
+        } catch(IllegalArgumentException e) {
             Map<String, Object> errors = new HashMap<String, Object>();
             errors.put("quantity", e.getMessage());
 
@@ -81,18 +81,17 @@ public class CartController {
         return CartDto.builder()
             .id(cart.id())
             .userId(cart.userId())
-            .totalQuantity(cart.totalQuantity().getValue())
-            .totalPrice(cart.totalPrice().getValue())
+            .totalQuantity(cart.totalQuantity().value())
+            .totalPrice(cart.totalPrice().value())
             .items(cart.items().stream().map(item -> {
                 return CartItemDto.builder()
                     .id(item.id())
                     .product_id(item.product_id())
-                    .quantity(item.quantity().getValue())
-                    .price(item.price().getValue())
+                    .quantity(item.quantity().value())
+                    .price(item.price().format())
                     .quantity_in_stock(item.in_stock())
                     .build();
             }).toList())
             .build();
     }
-
 }

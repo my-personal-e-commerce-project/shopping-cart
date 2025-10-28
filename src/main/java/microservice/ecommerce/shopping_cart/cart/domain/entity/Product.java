@@ -1,4 +1,7 @@
-package microservice.ecommerce.shopping_cart.cart.domain.value_objects;
+package microservice.ecommerce.shopping_cart.cart.domain.entity;
+
+import microservice.ecommerce.shopping_cart.cart.domain.value_objects.Price;
+import microservice.ecommerce.shopping_cart.cart.domain.value_objects.Quantity;
 
 public class Product {
 
@@ -29,6 +32,6 @@ public class Product {
     public String slug() { return slug; }
     public String name() { return name; }
     public String image() { return image; }
-    public int quantity() { return quantity.getValue(); }
-    public Double price() { return price.getValue(); }
+    public Quantity quantity() { return quantity; }
+    public Price price() { return price; }
 }

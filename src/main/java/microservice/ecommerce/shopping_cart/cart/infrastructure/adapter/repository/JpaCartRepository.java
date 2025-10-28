@@ -1,9 +1,6 @@
 package microservice.ecommerce.shopping_cart.cart.infrastructure.adapter.repository;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
@@ -63,8 +60,8 @@ public class JpaCartRepository implements CartRepository {
             return null;
         }
 
-        cartJpaEntity.setTotalQuantity(cart.totalQuantity().getValue());
-        cartJpaEntity.setTotalPrice(cart.totalPrice().getValue());
+        cartJpaEntity.setTotalQuantity(cart.totalQuantity().value());
+        cartJpaEntity.setTotalPrice(cart.totalPrice().value());
 
         cartJpaEntity.getItems().clear();
 
@@ -72,8 +69,8 @@ public class JpaCartRepository implements CartRepository {
             CartItemJpaEntity newItem = CartItemJpaEntity.builder()
                 .id(item.id())
                 .product(item.product_id())
-                .quantity(item.quantity().getValue())
-                .price(item.price().getValue())
+                .quantity(item.quantity().value())
+                .price(item.price().value())
                 .cart(cartJpaEntity)
                 .build();
 
@@ -90,8 +87,6 @@ public class JpaCartRepository implements CartRepository {
         return new Cart(
             cart.getId(),
             cart.getUserId(),
-            new Quantity(cart.getTotalQuantity()),
-            new Price(cart.getTotalPrice()),
             cart.getItems().stream().map(this::toCartItem).toList()
         );
     }

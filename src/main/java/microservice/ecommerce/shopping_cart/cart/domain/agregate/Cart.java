@@ -6,9 +6,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import microservice.ecommerce.shopping_cart.cart.domain.entity.CartItem;
-import microservice.ecommerce.shopping_cart.cart.domain.exception.InvalidQuantity;
 import microservice.ecommerce.shopping_cart.cart.domain.value_objects.Price;
-import microservice.ecommerce.shopping_cart.cart.domain.value_objects.Product;
+import microservice.ecommerce.shopping_cart.cart.domain.entity.Product;
 import microservice.ecommerce.shopping_cart.cart.domain.value_objects.Quantity;
 
 public class Cart {
@@ -22,29 +21,32 @@ public class Cart {
     public Cart(
         String id, 
         String userId, 
-        Quantity quantity, 
-        Price totalPrice,
         List<CartItem> items
     ) {
         this.id = id;
         this.userId = userId;
+
+        if(items == null) {
+            items = List.of();
+        }
+
         this.totalQuantity = new Quantity(
             items.stream()
-                 .mapToInt(i -> i.quantity().getValue())
+                 .mapToInt(i -> i.quantity().value())
                  .sum()
         );
 
         this.totalPrice = new Price(
             items.stream()
-                 .mapToDouble(i -> i.price().getValue())
+                 .mapToDouble(i -> i.price().value())
                  .sum()
-        );;
-        
-        this.items = items.stream()
-            .collect(
-                HashMap::new, 
-                (map, item) -> map.put(item.product_id(), item), HashMap::putAll
-            );
+        );
+
+        this.items = items.stream().collect(
+            HashMap::new, 
+            (map, item) -> map.put(item.product_id(), item), HashMap::putAll
+        );
+
     }
 
     public String id() { return id; }
@@ -60,48 +62,52 @@ public class Cart {
     }    
 
     public List<CartItem> items() { 
+        if(items == null) {
+            return null;
+        }
+
         return items.values().stream().toList();
     }
 
     private void recalculateTotal(Price price) {
         totalQuantity=null;
         items().forEach(item -> {
-            int quantity = item.quantity().getValue();
+            int quantity = item.quantity().value();
 
             if(totalQuantity == null) {
                 totalQuantity = new Quantity(quantity);
                 return;
             }
-            totalQuantity = new Quantity(totalQuantity.getValue() + quantity);
+            totalQuantity = new Quantity(totalQuantity.value() + quantity);
         });
 
-        totalPrice = new Price(price.getValue() * totalQuantity.getValue());
+        totalPrice = new Price(price.value() * totalQuantity.value());
     }
 
-    public void syncItems(String product_id, Product product, int quantity) {
-        if(items.containsKey(product_id)) {
+    public void syncItems(Product product, int quantity) {
+        if(items.containsKey(product.id())) {
             if(quantity == 0) {
-                items.remove(product_id);
+                items.remove(product.id());
                 return;
             }
-            CartItem item = items.get(product_id);
+            CartItem item = items.get(product.id());
             item.changeQuantity(quantity, product);
         } else {
-            
             if(quantity == 0) {
-                throw new InvalidQuantity("The quantity cannot be zero");
+                throw new IllegalArgumentException("The quantity cannot be zero");
             }
             
             CartItem item = new CartItem(
                 UUID.randomUUID().toString(),
                 new Quantity(quantity),
-                new Price(product.price() * quantity),
-                product_id
+                new Price(product.price().value() * quantity),
+                product.id() 
             );
             item.calculateValidQuantity(product);
-            items.put(product_id, item);
+            items.put(product.id(), item);
         }
-        recalculateTotal(new Price(product.price()));
+
+        recalculateTotal(new Price(product.price().value()));
     }
 }
 

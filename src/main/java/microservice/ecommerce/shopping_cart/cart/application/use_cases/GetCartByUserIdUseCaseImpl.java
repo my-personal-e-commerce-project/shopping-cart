@@ -5,7 +5,7 @@ import microservice.ecommerce.shopping_cart.cart.application.port.out.ExtractPro
 import microservice.ecommerce.shopping_cart.cart.domain.agregate.Cart;
 import microservice.ecommerce.shopping_cart.cart.domain.entity.CartItem;
 import microservice.ecommerce.shopping_cart.cart.domain.repository.CartRepository;
-import microservice.ecommerce.shopping_cart.cart.domain.value_objects.Product;
+import microservice.ecommerce.shopping_cart.cart.domain.entity.Product;
 
 public class GetCartByUserIdUseCaseImpl implements GetCartByUserIdUseCase {
   

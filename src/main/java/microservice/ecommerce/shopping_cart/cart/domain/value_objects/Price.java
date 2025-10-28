@@ -1,17 +1,20 @@
 package microservice.ecommerce.shopping_cart.cart.domain.value_objects;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class Price {
-  private final Double value;
+    private final double value;
 
-  public Price(Double value) {
-    if (value == null || value < 0) {
-      throw new IllegalArgumentException("Price cannot be null or negative");
+    public Price(double value) {
+        if (value < 0) {
+            throw new IllegalArgumentException("Price cannot be null or negative");
+        }
+        this.value = value;
     }
-    this.value = value;
-  }
+
+    public double value() {
+        return value;
+    }
+
+    public String format () {
+        return "$" + String.format("%.2f", value);
+    }
 }

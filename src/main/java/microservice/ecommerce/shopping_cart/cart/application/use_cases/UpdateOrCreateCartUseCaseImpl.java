@@ -4,7 +4,7 @@ import microservice.ecommerce.shopping_cart.cart.application.port.in.UpdateOrCre
 import microservice.ecommerce.shopping_cart.cart.application.port.out.ExtractProductPort;
 import microservice.ecommerce.shopping_cart.cart.domain.agregate.Cart;
 import microservice.ecommerce.shopping_cart.cart.domain.repository.CartRepository;
-import microservice.ecommerce.shopping_cart.cart.domain.value_objects.Product;
+import microservice.ecommerce.shopping_cart.cart.domain.entity.Product;
 import microservice.ecommerce.shopping_cart.shared.application.exception.DataNotFound;
 
 public class UpdateOrCreateCartUseCaseImpl implements UpdateOrCreateCartUseCase {
@@ -24,19 +24,14 @@ public class UpdateOrCreateCartUseCaseImpl implements UpdateOrCreateCartUseCase 
     public Cart execute(String userId, String product_id, int quantity) {
         Cart cart = cartRepository.findCartByUserIdOrCreateAndReturn(userId);
 
-
         Product product = extractProductPort.execute(product_id);
 
         if(product == null) {
             throw new DataNotFound("Product not found");
         }
         
-        cart.syncItems(product_id, product, quantity);
+        cart.syncItems(product, quantity);
 
-
-        cartRepository.update(cart);
-
-        System.out.println(cart.items().get(0).in_stock());
-        return cart;
+        return cartRepository.update(cart);
     }
 }

@@ -1,7 +1,6 @@
 package microservice.ecommerce.shopping_cart.cart.domain.entity;
 
 import microservice.ecommerce.shopping_cart.cart.domain.value_objects.Price;
-import microservice.ecommerce.shopping_cart.cart.domain.value_objects.Product;
 import microservice.ecommerce.shopping_cart.cart.domain.value_objects.Quantity;
 
 public class CartItem {
@@ -31,12 +30,12 @@ public class CartItem {
     public boolean in_stock() { return in_stock; }
 
     public void calculateValidQuantity(Product product) {
-        this.in_stock = product.quantity() >= quantity.getValue();
+        this.in_stock = product.quantity().value() >= quantity.value();
     }
 
     public void changeQuantity(int quantityDelta, Product product) {
         quantity = new Quantity(quantityDelta);
-        price = new Price(product.price() * quantityDelta);
+        price = new Price(product.price().value() * quantityDelta);
         
         calculateValidQuantity(product);
     }
