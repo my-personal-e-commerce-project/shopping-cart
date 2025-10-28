@@ -49,7 +49,7 @@ public class UpdateOrCreateCartUseCaseImplTest {
     }
 
     @Test
-    public void testExecute() {
+    public void testExecuteMethod() {
         int quantity = 2;
 
         cart.syncItems(product, quantity);
