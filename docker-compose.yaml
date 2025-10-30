@@ -9,7 +9,7 @@ services:
           - "8003:80"
         environment:
           SERVER_PORT: 80
-          SPRING_DATASOURCE_URL: jdbc:postgresql://pgsql:5432/shopping_cart
+          SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
           SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
           SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
         depends_on:

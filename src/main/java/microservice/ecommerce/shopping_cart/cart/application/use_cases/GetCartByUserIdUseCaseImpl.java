@@ -32,6 +32,6 @@ public class GetCartByUserIdUseCaseImpl implements GetCartByUserIdUseCase {
 
     private void reCalculateQuantityItemCart(CartItem cartItem) {
         Product product = extractProductPort.execute(cartItem.product_id());
-        cartItem.calculateValidQuantity(product); 
+        cartItem.calculateValidQuantity(product);
     }
 }

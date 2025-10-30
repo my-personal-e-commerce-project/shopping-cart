@@ -16,6 +16,6 @@ public class CartItemDto {
     private String id;
     private int quantity;
     private String price;
-    private String product_id;
+    private Object product;
     private boolean quantity_in_stock;
 }

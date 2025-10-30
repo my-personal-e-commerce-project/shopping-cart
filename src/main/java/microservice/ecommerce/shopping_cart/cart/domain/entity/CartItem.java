@@ -10,6 +10,7 @@ public class CartItem {
     private Price price;
     private String product_id;
     private boolean in_stock = false;
+    private Product product; 
 
     public CartItem(
         String id,
@@ -29,7 +30,10 @@ public class CartItem {
     public String product_id() { return product_id; }
     public boolean in_stock() { return in_stock; }
 
+    public Product product() { return product; }
+
     public void calculateValidQuantity(Product product) {
+        this.product = product;
         this.in_stock = product.quantity().value() >= quantity.value();
     }
 

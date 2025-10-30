@@ -3,8 +3,10 @@ package microservice.ecommerce.shopping_cart.cart.infrastructure.presentation.co
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,22 +33,31 @@ public class CartController {
     private final GetCartByUserIdUseCase getCartByUserIdUseCase;
     private final UpdateOrCreateCartUseCase updateOrCreateCartUseCase;
 
-    @GetMapping({"/{userId}"})
+    @GetMapping
     public ResponseEntity<PayloadResponse> getCart(
-        @PathVariable String userId
+        Authentication authentication
     ) {
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        
+        String userId = jwt.getSubject();
+       
         Cart cart = getCartByUserIdUseCase.execute(userId);
+        
         return ResponseEntity.ok(
             PayloadResponse.builder().data(toMap(cart)).build()
         );
     }
 
-    @PutMapping({"/{userId}"})
+    @PutMapping
     public ResponseEntity<PayloadResponse> updateCart(
-        @PathVariable String userId,
+        Authentication authentication,
         @RequestBody UpdateCartRequest body 
     ) {
         try{
+            Jwt jwt = (Jwt) authentication.getPrincipal();
+        
+            String userId = jwt.getSubject();
+
             Cart cart = updateOrCreateCartUseCase
                 .execute(userId, body.getProductId(), body.getQuantity());
 
@@ -86,7 +97,7 @@ public class CartController {
             .items(cart.items().stream().map(item -> {
                 return CartItemDto.builder()
                     .id(item.id())
-                    .product_id(item.product_id())
+                    .product(item.product())
                     .quantity(item.quantity().value())
                     .price(item.price().format())
                     .quantity_in_stock(item.in_stock())
