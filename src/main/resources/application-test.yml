@@ -1,0 +1,27 @@
+spring:
+  config:
+    import: classpath:.env[.properties]
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create-drop
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_HOST}/realms/${KEYCLOAK_REALM}
+client: 
+  product-service:
+    url: ${PRODUCT_HOST}/api/v1
+KEYCLOAK:
+  HOST: ${KEYCLOAK_HOST} 
+  REALM: ${KEYCLOAK_REALM} 
+  CLIENT_ID: backend-admin
+  CLIENT_SECRET: X1in1OkB5BfBmvcdPcCo4wNmGZgHKqvf
+
+

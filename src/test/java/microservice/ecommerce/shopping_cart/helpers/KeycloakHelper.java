@@ -20,16 +20,16 @@ import jakarta.ws.rs.core.Response;
 
 public class KeycloakHelper {
 
-    @Value("${KEYCLOAK_HOST}")
+    @Value("${KEYCLOAK.HOST}")
     private String KEYCLOAK_HOST;
 
-    @Value("${KEYCLOAK_REALM}")
+    @Value("${KEYCLOAK.REALM}")
     private String KEYCLOAK_REALM;
 
-    @Value("${KEYCLOAK_USERNAME}")
+    @Value("${KEYCLOAK.USERNAME}")
     private String KEYCLOAK_USERNAME;
 
-    @Value("${KEYCLOAK_PASSWORD}")
+    @Value("${KEYCLOAK.PASSWORD}")
     private String KEYCLOAK_PASSWORD;
 
     private Keycloak keycloak;
@@ -82,7 +82,8 @@ public class KeycloakHelper {
     public String login() {
         String username = "test";
         String password = "test";
-        String TOKEN_URL = KEYCLOAK_HOST + "/realms/mi-realm/protocol/openid-connect/token";
+        String TOKEN_URL = 
+            "http://" + KEYCLOAK_HOST + "/realms/" + KEYCLOAK_REALM + "/protocol/openid-connect/token";
 
         RestTemplate restTemplate = new RestTemplate();
 

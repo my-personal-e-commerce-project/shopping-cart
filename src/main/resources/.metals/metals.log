@@ -1,0 +1,2 @@
+2025.11.09 15:49:10 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/mauro/project/microservice_laravel/shopping-cart/src/main/resources/.metals/lsp.trace.json or /home/mauro/.cache/metals/lsp.trace.json[0m
+2025.11.09 15:49:10 INFO  logging to file /home/mauro/project/microservice_laravel/shopping-cart/.metals/metals.log[0m

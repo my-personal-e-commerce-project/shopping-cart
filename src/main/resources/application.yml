@@ -1,6 +1,6 @@
 spring:
   config:
-    import: file:.env[.properties]
+    import: classpath:.env[.properties]
   application:
     name: shopping-cart
   datasource:
@@ -15,7 +15,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://keycloak:8080/realms/microservicios-ecommerce
+          issuer-uri: ${KEYCLOAK_HOST}/realms/${KEYCLOAK_REALM}
 client:
   product-service:
     url: ${PRODUCT_HOST}/api/v1
