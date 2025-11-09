@@ -15,6 +15,7 @@ services:
           - sail 
         volumes:
           - ./src:/app/src
+          - .env:/app/.env
           - ./pom.xml:/app/pom.xml
           - ./target:/app/target
     pgsql:

@@ -1,11 +1,11 @@
 spring:
   config:
-    import: classpath:.env[.properties]
+    import: classpath:.env.test[.properties]
   datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    driver-class-name: org.postgresql.Driver
+    url: ${SPRING_DATASOURCE_URL} 
+    username: ${SPRING_DATASOURCE_USERNAME} 
+    password: ${SPRING_DATASOURCE_PASSWORD} 
   jpa:
     defer-datasource-initialization: true
     hibernate:
