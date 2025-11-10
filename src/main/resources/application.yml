@@ -1,23 +1,7 @@
 spring:
-  config:
-    import: file:.env[.properties]
   application:
     name: shopping-cart
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: ${SPRING_DATASOURCE_URL} 
-    username: ${SPRING_DATASOURCE_USERNAME} 
-    password: ${SPRING_DATASOURCE_PASSWORD} 
-  jpa:
-    hibernate:
-      ddl-auto: update
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://${KEYCLOAK_HOST}/realms/${KEYCLOAK_REALM}
-client:
-  product-service:
-    url: ${PRODUCT_HOST}/api/v1
-server:
-  port: 8005
+  config:
+    import:
+      - optional:file:.env[.properties]
+      - optional:configserver:${CONFIG_SERVER}
