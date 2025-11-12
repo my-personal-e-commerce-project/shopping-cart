@@ -2,6 +2,15 @@ spring:
   application:
     name: shopping-cart
   config:
-    import:
+    import: 
       - optional:file:.env[.properties]
-      - optional:configserver:${CONFIG_SERVER}
+      - "configserver:"
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_HOST}/eureka/
