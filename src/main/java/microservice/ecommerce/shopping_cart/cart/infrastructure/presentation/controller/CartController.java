@@ -1,6 +1,7 @@
 package microservice.ecommerce.shopping_cart.cart.infrastructure.presentation.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -9,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +19,11 @@ import lombok.RequiredArgsConstructor;
 import microservice.ecommerce.shopping_cart.cart.application.port.in.GetCartByUserIdUseCase;
 import microservice.ecommerce.shopping_cart.cart.application.port.in.UpdateOrCreateCartUseCase;
 import microservice.ecommerce.shopping_cart.cart.domain.agregate.Cart;
+import microservice.ecommerce.shopping_cart.cart.domain.exception.ProductNotFound;
 import microservice.ecommerce.shopping_cart.cart.infrastructure.dtos.CartDto;
 import microservice.ecommerce.shopping_cart.cart.infrastructure.dtos.CartItemDto;
 import microservice.ecommerce.shopping_cart.cart.infrastructure.dtos.PayloadResponse;
+import microservice.ecommerce.shopping_cart.cart.infrastructure.dtos.ProductDto;
 import microservice.ecommerce.shopping_cart.cart.infrastructure.validate.UpdateCartRequest;
 import microservice.ecommerce.shopping_cart.shared.application.exception.DataNotFound;
 
@@ -34,7 +36,7 @@ public class CartController {
     private final UpdateOrCreateCartUseCase updateOrCreateCartUseCase;
 
     @GetMapping
-    public ResponseEntity<PayloadResponse> getCart(
+    public ResponseEntity<PayloadResponse<CartDto>> getCart(
         Authentication authentication
     ) {
         Jwt jwt = (Jwt) authentication.getPrincipal();
@@ -43,13 +45,17 @@ public class CartController {
        
         Cart cart = getCartByUserIdUseCase.execute(userId);
         
+        PayloadResponse<CartDto> response = new PayloadResponse<CartDto>();
+
+        response.setData(toMap(cart));
+
         return ResponseEntity.ok(
-            PayloadResponse.builder().data(toMap(cart)).build()
+            response
         );
     }
 
     @PutMapping
-    public ResponseEntity<PayloadResponse> updateCart(
+    public ResponseEntity<PayloadResponse<CartDto>> updateCart(
         Authentication authentication,
         @RequestBody UpdateCartRequest body 
     ) {
@@ -61,26 +67,31 @@ public class CartController {
             Cart cart = updateOrCreateCartUseCase
                 .execute(userId, body.getProductId(), body.getQuantity());
 
+            PayloadResponse<CartDto> response = new PayloadResponse<CartDto>();
+
+            response.setData(toMap(cart));
+
             return ResponseEntity.ok(
-                PayloadResponse.builder().data(toMap(cart)).build()
+                response
             );
 
         } catch(IllegalArgumentException e) {
             Map<String, Object> errors = new HashMap<String, Object>();
             errors.put("quantity", e.getMessage());
 
-            return new ResponseEntity<PayloadResponse>(
-                PayloadResponse.builder().errors(
-                    errors
-                ).build(),
+            PayloadResponse<CartDto> response = new PayloadResponse<CartDto>();
+
+            response.setErrors(errors);
+            return new ResponseEntity<PayloadResponse<CartDto>>(
+                response,
                 HttpStatus.BAD_REQUEST
             );
         }
     }
 
     @ExceptionHandler(DataNotFound.class)
-    public ResponseEntity<PayloadResponse> handleDataNotFound(DataNotFound e) {
-        return new ResponseEntity<PayloadResponse>(
+    public ResponseEntity<PayloadResponse<?>> handleDataNotFound(DataNotFound e) {
+        return new ResponseEntity<PayloadResponse<?>>(
             PayloadResponse.builder().message(
                 e.getMessage()
             ).build(),
@@ -97,7 +108,15 @@ public class CartController {
             .items(cart.items().stream().map(item -> {
                 return CartItemDto.builder()
                     .id(item.id())
-                    .product(item.product())
+                    .product(ProductDto.builder()
+                        .id(item.product().id())
+                        .slug(item.product().slug())
+                        .name(item.product().name())
+                        .images(List.of(item.product().image()))
+                        .category_id(item.product().category_id())
+                        .price(item.product().price().value())
+                        .stock(item.product().quantity().value())
+                        .build())
                     .quantity(item.quantity().value())
                     .price(item.price().format())
                     .quantity_in_stock(item.in_stock())

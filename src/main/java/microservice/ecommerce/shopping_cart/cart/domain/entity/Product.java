@@ -11,6 +11,7 @@ public class Product {
     private String image;
     private Quantity quantity;
     private Price price;
+    private String category_id;
 
     public Product(
         String id,
@@ -34,4 +35,5 @@ public class Product {
     public String image() { return image; }
     public Quantity quantity() { return quantity; }
     public Price price() { return price; }
+    public String category_id() { return category_id; }
 }
